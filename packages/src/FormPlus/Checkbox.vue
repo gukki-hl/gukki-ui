@@ -71,7 +71,6 @@ const val = ref<(string | number | boolean)[]>(props.modelValue)
 onMounted(() => {
   if (props.modelValue.length === 0 && props.options.length > 0) {
     val.value = [props.options[0][props.valueFiled]]
-    console.log(val.value);
     emit('update:modelValue', val.value)
   }
 })

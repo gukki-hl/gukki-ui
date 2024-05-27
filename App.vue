@@ -1,6 +1,6 @@
 <template>
   <div class="container" style="width: 90%; margin: 0 auto; padding-bottom: 30px">
-    <FormPlus
+    <vue3-gukki-from
       :formData="formData"
       :formColumns="formColumns"
       :fromRules="fromRules"
@@ -13,22 +13,18 @@
       <!-- 操作按钮 -->
       <template v-slot:Actions>
         <div style="text-align: center">
-          <el-button type="primary" @click="onSubmit(baseForm as FormInstance)">提交</el-button>
+          <el-button type="primary" @click="onSubmit(baseForm)">提交</el-button>
           <el-button @click="handlerRest">重置</el-button>
         </div>
       </template>
-      <template v-slot:Test>
-        <vue3-gukki-from></vue3-gukki-from>
-      </template>
-    </FormPlus>
+    </vue3-gukki-from>
   </div>
 </template>
 
 <script lang="ts" setup>
-import FormPlus from '/packages/src/FormPlus/main.vue'
 import { reactive, onMounted, ref } from 'vue'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
-import type { FormColumnsType, FormDataType } from '../src/type/index'
+import type { FormColumnsType, FormDataType } from './type/index.ts'
 import {
   jobsList,
   departmentList,
@@ -49,8 +45,8 @@ import { useTransferData } from './hooks/transfer/useTransfer'
 const { transferData } = useTransferData()
 
 const baseForm = ref<FormInstance | null>(null)
-console.log('提交前', baseForm.value)
-console.log(typeof baseForm.value)
+console.log('base', baseForm.value)
+
 
 // 显式指定返回的对象类型
 type UseEmailReturnType = {
@@ -76,7 +72,7 @@ function changeCity(val: string | number) {
 
 // 勾选权限菜单
 function checkRoles(node: string | number, data: string | number) {
-  console.log(node, data)
+  console.log("勾选权限菜单",node, data)
 }
 
 // 虚拟列表模拟数据
@@ -86,15 +82,16 @@ const selectV2Options = Array.from({ length: 1000 }).map((_, idx) => ({
   label: `${initials[idx % 10]}${idx}`
 }))
 const onSubmit = async (formEl: FormInstance | undefined) => {
-  console.log(formEl)
-  console.log('onsubmit的参数是' + formEl)
+  console.log("formEl是這個",formEl);
+  
   if (!formEl) return
   formEl.formRef.validate((valid: boolean) => {
     if (!valid) return
+    console.log(formData);
     ElMessage({
-      message: '请到控制台查看数据',
-      type: 'success'
-    })
+      message: "请到控制台查看数据",
+      type: "success",
+    });
   })
 }
 
@@ -141,9 +138,6 @@ const formColumns = reactive<FormColumnsType[]>([
   },
   {
     slotName: 'Actions'
-  },
-  {
-    slotName: 'Test'
   },
   {
     xType: 'Input',

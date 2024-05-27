@@ -1,10 +1,10 @@
 // packages / index.js
 
-import Gukki_FormPuls from './src'
+import GukkiForm from './src'
 
 // 以数组的结构保存组件，便于遍历
 // 将导入的组件放入一个数组 components 中，便于后续遍历注册。
-const components = [Gukki_FormPuls]
+const components = [GukkiForm]
 // 定义 install 方法
 const install = (app: any) => {
   if ((install as any).installed) return
